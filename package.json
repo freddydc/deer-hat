@@ -1,0 +1,15 @@
+{
+  "name": "deer-hat",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server --watch src"
+  },
+  "dependencies": {
+    "express": "4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.19"
+  }
+}
