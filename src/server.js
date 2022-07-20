@@ -1,12 +1,11 @@
 import express from 'express'
+import { router } from './router.js'
 
 const app = express()
 const port = 8000
 
-app.get('/', (req, res) => {
-  res.send('Hello!')
-})
+router(app)
 
 app.listen(port, () => {
-  console.log(`Server at http://localhost:${port}`)
+  console.log(`🚀 Server at http://localhost:${port}`)
 })
