@@ -5,8 +5,11 @@ import controller from './controller.js'
 export const user = express.Router()
 
 user.get('/', (req, res) => {
+  const limit = req.query.limit ?? null
   try {
-    const users = controller.getUsers()
+    const users = controller.getUsers({
+      limit
+    })
     response.success({
       data: users,
       res

@@ -1,7 +1,9 @@
 import store from './store.js'
 
-function getUsers() {
-  return store.all()
+function getUsers({ limit }) {
+  return store.all({
+    limit
+  })
 }
 
 export default {
