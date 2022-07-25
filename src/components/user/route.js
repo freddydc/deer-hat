@@ -21,3 +21,11 @@ user.get('/', (req, res) => {
     })
   }
 })
+
+user.post('/signup', (req, res) => {
+  const username = req.body.username
+  response.success({
+    res,
+    data: username
+  })
+})
