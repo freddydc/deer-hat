@@ -1,4 +1,5 @@
 import express from 'express'
+import { generateToken } from '../../auth.js'
 import response from '../../response.js'
 import controller from './controller.js'
 
@@ -22,17 +23,27 @@ user.get('/', (req, res) => {
   }
 })
 
-user.post('/signup', (req, res) => {
-  const username = req.body.username
+user.post('/signup', async (req, res) => {
+  try {
+    const user = await controller.addUser({
+      username: req.body.username
+    })
 
-  console.log(req.headers)
+    response.success({
+      res,
+      status: 201,
+      data: {
+        username: user.username,
+        token: generateToken(user)
+      }
+    })
+  } catch (e) {
+    console.log(e)
 
-  res.header({
-    'Custom-Header': 'Our custom value'
-  })
-
-  response.success({
-    res,
-    data: username
-  })
+    response.error({
+      status: 500,
+      message: 'Internal Error',
+      res
+    })
+  }
 })

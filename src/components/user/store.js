@@ -1,3 +1,5 @@
+import User from './model.js'
+
 let storage = [
   {
     image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
@@ -21,6 +23,15 @@ function getUsers({ limit }) {
   return users
 }
 
+async function addUser(data) {
+  const newUser = new User({
+    username: data.username
+  })
+  const user = await newUser.save()
+  return user
+}
+
 export default {
-  all: getUsers
+  all: getUsers,
+  add: addUser
 }

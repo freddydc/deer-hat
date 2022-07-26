@@ -6,6 +6,17 @@ function getUsers({ limit }) {
   })
 }
 
+function addUser(data) {
+  if (!data.username) {
+    return Promise.reject('Invalid username')
+  }
+
+  return store.add({
+    username: data.username
+  })
+}
+
 export default {
-  getUsers
+  getUsers,
+  addUser
 }
