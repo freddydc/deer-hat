@@ -24,6 +24,13 @@ user.get('/', (req, res) => {
 
 user.post('/signup', (req, res) => {
   const username = req.body.username
+
+  console.log(req.headers)
+
+  res.header({
+    'Custom-Header': 'Our custom value'
+  })
+
   response.success({
     res,
     data: username

@@ -94,6 +94,7 @@ async function addUser() {
   const response = await fetch(`/api/v1/users/signup`, {
     method: 'POST',
     headers: {
+      Authorization: 'Our custom value',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(newUser)
