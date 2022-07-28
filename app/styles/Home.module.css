@@ -78,6 +78,27 @@
   object-fit: cover;
 }
 
+.messageText {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  background-color: rgb(231 76 60 / 0.95);
+  text-transform: capitalize;
+  border-radius: 0.25rem;
+  padding: 0.5rem 3rem;
+  margin: 1rem 0;
+  font-weight: 700;
+  color: #fff;
+}
+
+.messageCard {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
 @media (min-width: 640px) {
   .input {
     width: 28rem;

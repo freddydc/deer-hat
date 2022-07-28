@@ -1,21 +1,30 @@
 import '../styles/general.css'
 import styles from '../styles/Home.module.css'
 
-let state = {
-  title: 'Deer',
-  inputValue: ''
-}
+const PAGE_TITLE = 'Deer'
+let inputValue = ''
+let timeoutId = null
 
 const app = document.querySelector('#app')
 
-function header() {
-  const { title } = state
+function render(child) {
+  app.appendChild(child)
+}
 
+function message() {
+  const card = document.createElement('div')
+  const message = document.createElement('span')
+
+  card.classList.add(styles.messageCard)
+  message.setAttribute('id', 'message')
+  card.appendChild(message)
+
+  render(card)
+}
+
+function navbar() {
   const handleInput = e => {
-    state = {
-      ...state,
-      inputValue: e.target.value
-    }
+    inputValue = e.target.value
   }
 
   const handleSubmit = e => {
@@ -38,7 +47,7 @@ function header() {
   menu.classList.add(styles.box)
   createUser.classList.add(styles.button)
 
-  brand.textContent = title
+  brand.textContent = PAGE_TITLE
   labelUser.textContent = 'Username'
   createUser.textContent = 'Sign up'
   createUser.setAttribute('type', 'submit')
@@ -56,14 +65,10 @@ function header() {
   navbar.appendChild(brand)
   navbar.appendChild(formContent)
 
-  app.appendChild(navbar)
+  render(navbar)
 }
 
-async function content() {
-  const { data } = await users({
-    limit: 10
-  })
-
+function users({ data }) {
   const grid = document.createElement('div')
 
   grid.classList.add(styles.grid)
@@ -75,18 +80,16 @@ async function content() {
     grid.appendChild(photo)
   })
 
-  app.appendChild(grid)
+  render(grid)
 }
 
-async function users({ limit }) {
+async function getUsers({ limit }) {
   const response = await fetch(`/api/v1/users?limit=${limit}`)
   const users = await response.json()
   return users
 }
 
 async function addUser() {
-  const { inputValue } = state
-
   const newUser = {
     username: inputValue
   }
@@ -100,12 +103,30 @@ async function addUser() {
     body: JSON.stringify(newUser)
   })
 
-  const user = await response.json()
+  const { error, data } = await response.json()
 
-  console.log(user)
+  console.log(data)
+
+  if (error) {
+    const message = document.querySelector('#message')
+    message.classList.add(styles.messageText)
+    message.textContent = error
+
+    clearTimeout(timeoutId)
+
+    timeoutId = setTimeout(() => {
+      message.classList.value = ''
+      message.textContent = ''
+    }, 5000)
+  }
 }
 
-!(function () {
-  header()
-  content()
+!(async function () {
+  const allUsers = await getUsers({
+    limit: 10
+  })
+
+  navbar()
+  users(allUsers)
+  message()
 })()
