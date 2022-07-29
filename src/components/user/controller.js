@@ -16,7 +16,12 @@ function addUser(data) {
   })
 }
 
+function updateProfile(data) {
+  return store.updateProfile(data)
+}
+
 export default {
   getUsers,
-  addUser
+  addUser,
+  updateProfile
 }

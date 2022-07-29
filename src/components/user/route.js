@@ -1,5 +1,5 @@
 import express from 'express'
-import { generateToken } from '../../auth.js'
+import { generateToken, isAuth } from '../../auth.js'
 import response from '../../response.js'
 import controller from './controller.js'
 
@@ -44,6 +44,40 @@ user.post('/signup', async (req, res) => {
       status: 500,
       message: 'Internal Error',
       res
+    })
+  }
+})
+
+user.put('/profile', isAuth, async (req, res) => {
+  try {
+    const user = await controller.updateProfile({
+      username: req.body.username,
+      id: req.user.id
+    })
+
+    if (user) {
+      response.success({
+        res,
+        status: 200,
+        data: {
+          username: user.username,
+          token: generateToken(user)
+        }
+      })
+      return
+    }
+
+    response.success({
+      res,
+      message: 'User Not Found',
+      status: 404
+    })
+  } catch (e) {
+    console.log(e)
+    response.error({
+      res,
+      message: 'Internal Error',
+      status: 500
     })
   }
 })

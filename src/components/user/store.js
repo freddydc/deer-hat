@@ -31,7 +31,18 @@ async function addUser(data) {
   return user
 }
 
+async function updateProfile(data) {
+  const user = await User.findById(data.id)
+
+  if (user) {
+    user.username = data.username || user.username
+    const updatedUser = await user.save()
+    return updatedUser
+  }
+}
+
 export default {
   all: getUsers,
-  add: addUser
+  add: addUser,
+  updateProfile
 }
