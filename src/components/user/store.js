@@ -41,8 +41,17 @@ async function updateProfile(data) {
   }
 }
 
+async function loginUser(data) {
+  const user = await User.findOne({
+    username: data.username
+  })
+
+  return user
+}
+
 export default {
   all: getUsers,
   add: addUser,
-  updateProfile
+  updateProfile,
+  loginUser
 }

@@ -11,11 +11,15 @@
 
 .form {
   display: grid;
+  justify-items: center;
 }
 
-.box {
-  display: inline-flex;
-  justify-content: center;
+.span {
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 1rem;
+  line-height: 1rem;
+  font-weight: 500;
 }
 
 .brand {
@@ -29,6 +33,7 @@
 }
 
 .label {
+  width: 100%;
   font-size: 1rem;
   line-height: 1rem;
   margin: 0.5rem 0;
@@ -38,19 +43,37 @@
 }
 
 .button {
-  font-size: 1.25rem;
-  line-height: 1.25rem;
+  font-size: 1rem;
+  line-height: 1rem;
   text-transform: capitalize;
   background-color: transparent;
-  box-shadow: var(--main-shadow);
-  border-radius: 0.25rem;
-  padding: 0.25rem 1.25rem;
-  margin: 0.75rem 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0.75rem 0;
   font-family: inherit;
   font-weight: 800;
   color: #fff;
   cursor: pointer;
+  width: 100%;
   border: 0;
+}
+
+.signIn {
+  border-radius: 9999px;
+  box-shadow: var(--main-shadow);
+}
+
+.signUp {
+  border-radius: 9999px;
+  background-color: #1eaedb;
+}
+
+.adminUser {
+  border-radius: 0.25rem;
+  background-color: #1eaedb;
+}
+
+.toggleShow {
+  display: none;
 }
 
 .input {
@@ -78,10 +101,10 @@
   object-fit: cover;
 }
 
-.messageText {
+.notifier span {
   font-size: 1.25rem;
   line-height: 1.25rem;
-  background-color: rgb(231 76 60 / 0.95);
+  background-color: rgb(255 127 72 / 0.95);
   text-transform: capitalize;
   border-radius: 0.25rem;
   padding: 0.5rem 3rem;
@@ -90,13 +113,17 @@
   color: #fff;
 }
 
-.messageCard {
+.notifier {
   display: flex;
   justify-content: center;
   position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
+}
+
+.notifierError span {
+  background-color: rgb(231 76 60 / 0.95);
 }
 
 @media (min-width: 640px) {

@@ -20,8 +20,13 @@ function updateProfile(data) {
   return store.updateProfile(data)
 }
 
+function loginUser(data) {
+  return store.loginUser(data)
+}
+
 export default {
   getUsers,
   addUser,
-  updateProfile
+  updateProfile,
+  loginUser
 }

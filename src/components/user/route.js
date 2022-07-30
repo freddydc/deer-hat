@@ -48,6 +48,38 @@ user.post('/signup', async (req, res) => {
   }
 })
 
+user.post('/login', async (req, res) => {
+  try {
+    const user = await controller.loginUser({
+      username: req.body.username
+    })
+
+    if (user) {
+      response.success({
+        res,
+        status: 200,
+        data: {
+          username: user.username,
+          token: generateToken(user)
+        }
+      })
+      return
+    }
+
+    response.success({
+      res,
+      message: 'Invalid Data',
+      status: 401
+    })
+  } catch (e) {
+    response.error({
+      res,
+      message: 'Internal Error',
+      status: 500
+    })
+  }
+})
+
 user.put('/profile', isAuth, async (req, res) => {
   try {
     const user = await controller.updateProfile({
