@@ -2,8 +2,13 @@ import express from 'express'
 import { generateToken, isAuth } from '../../auth.js'
 import response from '../../response.js'
 import controller from './controller.js'
+import multer from 'multer'
 
 export const user = express.Router()
+
+const upload = multer({
+  dest: `app/dist/static/`
+})
 
 user.get('/', (req, res) => {
   const limit = req.query.limit ?? null
@@ -80,7 +85,9 @@ user.post('/login', async (req, res) => {
   }
 })
 
-user.put('/profile', isAuth, async (req, res) => {
+user.put('/profile', isAuth, upload.single('file'), async (req, res) => {
+  console.log(req.file)
+
   try {
     const user = await controller.updateProfile({
       username: req.body.username,
