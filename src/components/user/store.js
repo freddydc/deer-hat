@@ -36,6 +36,7 @@ async function updateProfile(data) {
 
   if (user) {
     user.username = data.username || user.username
+    user.image = data.image
     const updatedUser = await user.save()
     return updatedUser
   }

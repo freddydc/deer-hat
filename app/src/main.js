@@ -41,12 +41,17 @@ function toggleNotifier(message, variant) {
   const span = document.querySelector('#message')
 
   const reset = () => {
-    notifier.classList.remove(styles.notifier, styles.notifierError)
+    notifier.classList.remove(
+      styles.notifier,
+      styles.notifierError,
+      styles.notifySuccess
+    )
+
     span.textContent = ''
   }
 
   const cleanVariant = () => {
-    notifier.classList.remove(styles.notifierError)
+    notifier.classList.remove(styles.notifierError, styles.notifySuccess)
   }
 
   if (!message) {
@@ -75,21 +80,31 @@ function admin() {
   const labelUser = document.createElement('label')
   const entryData = document.createElement('input')
   const manageUser = document.createElement('button')
+  const picture = document.createElement('label')
+  const choose = document.createElement('input')
 
   adminForm.classList.add(styles.form, styles.toggleShow)
   labelUser.classList.add(styles.label)
   entryData.classList.add(styles.input)
   manageUser.classList.add(styles.button, styles.adminUser)
+  picture.classList.add(styles.label, styles.shadeMenu)
+  choose.classList.add(styles.fileInput)
 
   labelUser.textContent = 'Profile'
   manageUser.textContent = 'Update'
+  picture.textContent = 'Profile picture'
 
   manageUser.setAttribute('type', 'submit')
   adminForm.setAttribute('id', 'admin-form')
+  picture.setAttribute('for', 'file-input')
+  choose.setAttribute('id', 'file-input')
+  choose.setAttribute('type', 'file')
 
   adminForm.appendChild(labelUser)
   adminForm.appendChild(entryData)
   adminForm.appendChild(manageUser)
+  adminForm.appendChild(picture)
+  adminForm.appendChild(choose)
 
   const handleInput = e => {
     inputValue = e.target.value
@@ -102,6 +117,7 @@ function admin() {
   entryData.addEventListener('input', handleInput)
   manageUser.addEventListener('click', updateProfile)
   adminForm.addEventListener('submit', handleSubmit)
+  choose.addEventListener('change', addPicture)
 
   return adminForm
 }
@@ -212,6 +228,26 @@ async function addUser() {
   }
 }
 
+async function addPicture(e) {
+  const file = e.target.files[0]
+  const imageForm = new FormData()
+  imageForm.append('file', file)
+
+  const response = await fetch(`/api/v1/users/profile`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${userAuth}`
+    },
+    body: imageForm
+  })
+
+  const { data } = await response.json()
+
+  if (data) {
+    toggleNotifier('Successful update', styles.notifySuccess)
+  }
+}
+
 async function updateProfile() {
   const response = await fetch(`/api/v1/users/profile`, {
     method: 'PUT',
@@ -229,7 +265,7 @@ async function updateProfile() {
   if (data) {
     userAuth = data.token
     toggleBrand(data.username)
-    toggleNotifier()
+    toggleNotifier('Successful update', styles.notifySuccess)
   }
 
   if (message) {

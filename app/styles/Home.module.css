@@ -72,6 +72,17 @@
   background-color: #1eaedb;
 }
 
+.shadeMenu {
+  padding: 0.5rem 0.75rem;
+  box-shadow: var(--main-shadow);
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
 .toggleShow {
   display: none;
 }
@@ -124,6 +135,10 @@
 
 .notifierError span {
   background-color: rgb(231 76 60 / 0.95);
+}
+
+.notifySuccess span {
+  background-color: rgb(100 206 131 / 0.95);
 }
 
 @media (min-width: 640px) {

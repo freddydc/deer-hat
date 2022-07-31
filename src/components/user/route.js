@@ -86,11 +86,10 @@ user.post('/login', async (req, res) => {
 })
 
 user.put('/profile', isAuth, upload.single('file'), async (req, res) => {
-  console.log(req.file)
-
   try {
     const user = await controller.updateProfile({
       username: req.body.username,
+      file: req.file,
       id: req.user.id
     })
 

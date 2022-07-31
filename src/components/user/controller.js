@@ -16,8 +16,13 @@ function addUser(data) {
   })
 }
 
-function updateProfile(data) {
-  return store.updateProfile(data)
+function updateProfile({ file, username, id }) {
+  const image = file ? `/static/${file.filename}` : ''
+  return store.updateProfile({
+    image,
+    username,
+    id
+  })
 }
 
 function loginUser(data) {
