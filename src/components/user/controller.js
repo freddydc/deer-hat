@@ -29,9 +29,14 @@ function loginUser(data) {
   return store.loginUser(data)
 }
 
+function removeUser(id) {
+  return store.remove(id)
+}
+
 export default {
   getUsers,
   addUser,
   updateProfile,
-  loginUser
+  loginUser,
+  removeUser
 }

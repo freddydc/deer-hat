@@ -12,6 +12,15 @@ function render(child) {
   app.appendChild(child)
 }
 
+function signOut() {
+  inputValue = ''
+  userAuth = null
+
+  toggleNotifier()
+  toggleBrand(PAGE_TITLE)
+  toggleHome()
+}
+
 function message() {
   const card = document.createElement('div')
   const message = document.createElement('span')
@@ -28,12 +37,29 @@ function toggleBrand(title) {
   brand.textContent = title
 }
 
+function cleanInput(inputId) {
+  const input = document.querySelector(inputId)
+  input.value = ''
+}
+
 function toggleAdmin() {
   const userForm = document.querySelector('#user-form')
   const adminForm = document.querySelector('#admin-form')
 
+  cleanInput('#user-input')
+
   userForm.classList.add(styles.toggleShow)
   adminForm.classList.remove(styles.toggleShow)
+}
+
+function toggleHome() {
+  const userForm = document.querySelector('#user-form')
+  const adminForm = document.querySelector('#admin-form')
+
+  cleanInput('#admin-input')
+
+  userForm.classList.remove(styles.toggleShow)
+  adminForm.classList.add(styles.toggleShow)
 }
 
 function toggleNotifier(message, variant) {
@@ -82,6 +108,8 @@ function admin() {
   const manageUser = document.createElement('button')
   const picture = document.createElement('label')
   const choose = document.createElement('input')
+  const remove = document.createElement('button')
+  const session = document.createElement('button')
 
   adminForm.classList.add(styles.form, styles.toggleShow)
   labelUser.classList.add(styles.label)
@@ -89,22 +117,29 @@ function admin() {
   manageUser.classList.add(styles.button, styles.adminUser)
   picture.classList.add(styles.label, styles.shadeMenu)
   choose.classList.add(styles.fileInput)
+  remove.classList.add(styles.button, styles.removeMenu)
+  session.classList.add(styles.button, styles.sessionMenu)
 
   labelUser.textContent = 'Profile'
   manageUser.textContent = 'Update'
   picture.textContent = 'Profile picture'
+  remove.textContent = 'Delete your account'
+  session.textContent = 'Sign out'
 
   manageUser.setAttribute('type', 'submit')
   adminForm.setAttribute('id', 'admin-form')
   picture.setAttribute('for', 'file-input')
   choose.setAttribute('id', 'file-input')
   choose.setAttribute('type', 'file')
+  entryData.setAttribute('id', 'admin-input')
 
   adminForm.appendChild(labelUser)
   adminForm.appendChild(entryData)
   adminForm.appendChild(manageUser)
   adminForm.appendChild(picture)
   adminForm.appendChild(choose)
+  adminForm.appendChild(remove)
+  adminForm.appendChild(session)
 
   const handleInput = e => {
     inputValue = e.target.value
@@ -118,6 +153,8 @@ function admin() {
   manageUser.addEventListener('click', updateProfile)
   adminForm.addEventListener('submit', handleSubmit)
   choose.addEventListener('change', addPicture)
+  remove.addEventListener('click', removeUser)
+  session.addEventListener('click', signOut)
 
   return adminForm
 }
@@ -165,6 +202,7 @@ function navbar() {
   userForm.addEventListener('submit', handleSubmit)
   createUser.addEventListener('click', addUser)
   accessUser.addEventListener('click', login)
+  entryData.setAttribute('id', 'user-input')
 
   userForm.appendChild(labelUser)
   userForm.appendChild(entryData)
@@ -245,6 +283,25 @@ async function addPicture(e) {
 
   if (data) {
     toggleNotifier('Successful update', styles.notifySuccess)
+  }
+}
+
+async function removeUser() {
+  const response = await fetch(`/api/v1/users/admin`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${userAuth}`
+    }
+  })
+
+  const { message, data } = await response.json()
+
+  if (data) {
+    signOut()
+  }
+
+  if (!data && message) {
+    toggleNotifier(message)
   }
 }
 

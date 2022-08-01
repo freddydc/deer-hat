@@ -50,9 +50,19 @@ async function loginUser(data) {
   return user
 }
 
+async function removeUser(id) {
+  const user = await User.findById(id)
+
+  if (user) {
+    const deletedUser = await user.remove()
+    return deletedUser
+  }
+}
+
 export default {
   all: getUsers,
   add: addUser,
   updateProfile,
-  loginUser
+  loginUser,
+  remove: removeUser
 }

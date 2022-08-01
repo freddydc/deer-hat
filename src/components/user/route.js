@@ -119,3 +119,31 @@ user.put('/profile', isAuth, upload.single('file'), async (req, res) => {
     })
   }
 })
+
+user.delete('/admin', isAuth, async (req, res) => {
+  try {
+    const user = await controller.removeUser(req.user.id)
+    if (user) {
+      response.success({
+        res,
+        status: 200,
+        data: {
+          username: user.username
+        }
+      })
+      return
+    }
+
+    response.success({
+      res,
+      message: 'User not found',
+      status: 404
+    })
+  } catch (e) {
+    response.error({
+      res,
+      message: 'Internal Error',
+      status: 500
+    })
+  }
+})

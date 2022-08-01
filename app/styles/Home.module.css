@@ -72,6 +72,20 @@
   background-color: #1eaedb;
 }
 
+.removeMenu {
+  box-shadow: var(--main-shadow);
+  text-transform: inherit;
+  border-radius: 0.25rem;
+  color: #e74c3c;
+}
+
+.sessionMenu {
+  background-color: #ffc832;
+  text-transform: inherit;
+  border-radius: 0.25rem;
+  color: #383838;
+}
+
 .shadeMenu {
   padding: 0.5rem 0.75rem;
   box-shadow: var(--main-shadow);
