@@ -10,10 +10,10 @@ const upload = multer({
   dest: `app/dist/static/`
 })
 
-user.get('/', (req, res) => {
-  const limit = req.query.limit ?? null
+user.get('/', async (req, res) => {
+  const limit = req.query.limit
   try {
-    const users = controller.getUsers({
+    const users = await controller.getUsers({
       limit
     })
     response.success({

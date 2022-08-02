@@ -1,25 +1,7 @@
 import User from './model.js'
 
-let storage = [
-  {
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg'
-  },
-  {
-    image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg'
-  },
-  {
-    image: 'https://rickandmortyapi.com/api/character/avatar/3.jpeg'
-  },
-  {
-    image: 'https://rickandmortyapi.com/api/character/avatar/4.jpeg'
-  }
-]
-
-function getUsers({ limit }) {
-  const users = storage.slice(
-    0,
-    !Number(limit) ? storage.length : Number(limit)
-  )
+async function getUsers({ limit }) {
+  const users = await User.find({}).limit(limit)
   return users
 }
 
